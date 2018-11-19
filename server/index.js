@@ -1,6 +1,12 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const app = express()
-const port = 3100
+
+require('dotenv').config()
+const dbURL = process.env.DB_URL
+const port = process.env.PORT
+
+mongoose.connect(dbURL)
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
