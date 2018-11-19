@@ -1,0 +1,14 @@
+{
+  "name": "suggestion_box",
+  "version": "0.1.0",
+  "description": "The backend for a suggestion box applicationn",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sirrah23",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
