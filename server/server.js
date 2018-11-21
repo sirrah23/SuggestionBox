@@ -3,11 +3,16 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
 
+const suggestionBoxRepo = require("./repo/suggestionBox");
+
 require("dotenv").config();
 const dbURL = process.env.DB_URL;
 const port = process.env.PORT;
 
-mongoose.connect(dbURL);
+mongoose.connect(
+  dbURL,
+  { useNewUrlParser: true }
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,11 +21,11 @@ app.use(bodyParser.json({ type: "application/json" }));
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
-app.get("/suggestionBox", (req, res) => {
-  res.json([]);
+app.get("/suggestionbox", (req, res) => {
+  suggestionBoxRepo.getAllBoxes().then(r => res.json(r));
 });
 
-app.post("/suggestionBox", (req, res) => {
+app.post("/suggestionbox", (req, res) => {
   res.json({});
 });
 

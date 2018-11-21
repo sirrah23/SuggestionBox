@@ -1,18 +1,20 @@
 process.env.NODE_ENV = "test";
 
-let mongoose = require("mongoose");
-let suggestionBoxRepo = require("../repo/suggestionBox.js");
+const mongoose = require("mongoose");
+const suggestionBoxRepo = require("../repo/suggestionBox.js");
 
-let chai = require("chai");
-let chaiHttp = require("chai-http");
-let server = require("../server");
-let should = chai.should();
+const chai = require("chai");
+const chaiHttp = require("chai-http");
+const server = require("../server");
+const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe("Suggestion Box", () => {
-  beforeEach(() => {
-    suggestionBoxRepo.clear();
+  beforeEach(done => {
+    suggestionBoxRepo.clear().then(() => {
+      done();
+    });
   });
 
   describe("/GET suggestion boxes", () => {
@@ -29,17 +31,20 @@ describe("Suggestion Box", () => {
     });
 
     it("should GET all of the suggestion boxes when there is one", done => {
-      const box = suggestionBoxRepo.createBox({
-        name: "New menu items for cafeteria"
-      });
-      chai
-        .request(server)
-        .get("/suggestionbox")
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a("array");
-          res.body.length.should.be.eql(1);
-          done();
+      suggestionBoxRepo
+        .createBox({
+          name: "New menu items for cafeteria"
+        })
+        .then(box => {
+          chai
+            .request(server)
+            .get("/suggestionbox")
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("array");
+              res.body.length.should.be.eql(1);
+              done();
+            });
         });
     });
   });
