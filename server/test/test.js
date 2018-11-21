@@ -50,44 +50,62 @@ describe("Suggestion Box", () => {
   });
 
   describe("/GET a specific suggestion box", () => {
-    const box = suggestionBoxRepo.createBox({
-      name: "New menu items for cafeteria"
-    });
-
     it("should GET an existing suggestion box by owner hash", done => {
-      chai
-        .request(server)
-        .get(`/suggestionbox/${box.hash_owner}`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a("object");
-          res.body.should.not.have.property("error");
-          res.body.should.have.property("name").eql(box.name);
-          res.body.should.have.property("date");
-          res.body.should.have.property("hash_owner").eql(box.hash_owner);
-          res.body.should.have
-            .property("hash_submitter")
-            .eql(box.hash_submitter);
-          res.body.should.have.property("suggestions").length.should.be.eql(0);
-          done();
+      suggestionBoxRepo
+        .createBox({
+          name: "New menu items for cafeteria"
+        })
+        .then(box => {
+          chai
+            .request(server)
+            .get(`/suggestionbox/${box.hash_owner}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("object");
+              res.body.should.not.have.property("error");
+              res.body.should.have.property("name").eql(box.name);
+              res.body.should.have.property("date");
+              res.body.should.have.property("hash_owner").eql(box.hash_owner);
+              res.body.should.have
+                .property("hash_submitter")
+                .eql(box.hash_submitter);
+              done();
+            });
         });
     });
 
     it("should GET an existing suggestion box by submitter hash", done => {
+      suggestionBoxRepo
+        .createBox({
+          name: "New menu items for cafeteria"
+        })
+        .then(box => {
+          chai
+            .request(server)
+            .get(`/suggestionbox/${box.hash_submitter}`)
+            .end((err, res) => {
+              res.should.have.status(200);
+              res.body.should.be.a("object");
+              res.body.should.not.have.property("error");
+              res.body.should.have.property("name").eql(box.name);
+              res.body.should.have.property("date");
+              res.body.should.have.property("hash_owner").eql(box.hash_owner);
+              res.body.should.have
+                .property("hash_submitter")
+                .eql(box.hash_submitter);
+              done();
+            });
+        });
+    });
+
+    it("should not GET a box that does not exist", done => {
       chai
         .request(server)
-        .get(`/suggestionbox/${box.hash_submitter}`)
+        .get("/suggestionbox/badhash")
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("object");
-          res.body.should.not.have.property("error");
-          res.body.should.have.property("name").eql(box.name);
-          res.body.should.have.property("date");
-          res.body.should.have.property("hash_owner").eql(box.hash_owner);
-          res.body.should.have
-            .property("hash_submitter")
-            .eql(box.hash_submitter);
-          res.body.should.have.property("suggestions").length.should.be.eql(0);
+          res.body.should.have.property("error");
           done();
         });
     });

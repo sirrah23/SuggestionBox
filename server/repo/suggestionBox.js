@@ -28,6 +28,12 @@ module.exports = {
       .exec()
       .then(docs => docs.map(doc => doc.toJSON()));
   },
+  getBoxByHash(hashStr) {
+    return suggestionBox
+      .findOne({ $or: [{ hash_owner: hashStr }, { hash_submitter: hashStr }] })
+      .exec()
+      .then(doc => (!doc ? { error: "No box found" } : doc));
+  },
   clear() {
     return suggestionBox.deleteMany({});
   }

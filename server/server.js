@@ -25,6 +25,10 @@ app.get("/suggestionbox", (req, res) => {
   suggestionBoxRepo.getAllBoxes().then(r => res.json(r));
 });
 
+app.get("/suggestionbox/:hash", (req, res) => {
+  suggestionBoxRepo.getBoxByHash(req.params.hash).then(r => res.json(r));
+});
+
 app.post("/suggestionbox", (req, res) => {
   res.json({});
 });
