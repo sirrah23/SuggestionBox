@@ -135,7 +135,7 @@ describe("Suggestion Box", () => {
   });
 
   describe("/POST suggestion to box", () => {
-    it("should POST a suggestion to an exisiting box", done => {
+    it("should POST a suggestion to an existing box", done => {
       const box = suggestionBoxRepo.createBox({ name: "Boost morale" });
       const suggestion = {
         body: "Lets have a party!"
@@ -153,6 +153,7 @@ describe("Suggestion Box", () => {
           res.body.should.have.property("hash_owner");
           res.body.should.have.property("hash_submitter");
           res.body.should.have.property("suggestions");
+          done();
         });
     });
   });
