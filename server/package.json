@@ -4,7 +4,7 @@
   "description": "The backend for a suggestion box applicationn",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha test/*",
+    "test": "node_modules/mocha/bin/mocha --exit test/*",
     "pretty": "node_modules/prettier/bin-prettier.js --no-config --write ./*.js **/*.js"
   },
   "author": "sirrah23",

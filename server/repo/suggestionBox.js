@@ -34,6 +34,13 @@ module.exports = {
       .exec()
       .then(doc => (!doc ? { error: "No box found" } : doc));
   },
+  addSuggestion(boxHash, suggestionBody) {
+    return suggestionBox.findOneAndUpdate(
+      { hash_submitter: boxHash },
+      { $push: { suggestions: { body: suggestionBody } } },
+      { new: true }
+    );
+  },
   clear() {
     return suggestionBox.deleteMany({});
   }

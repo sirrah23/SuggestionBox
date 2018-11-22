@@ -136,25 +136,26 @@ describe("Suggestion Box", () => {
 
   describe("/POST suggestion to box", () => {
     it("should POST a suggestion to an existing box", done => {
-      const box = suggestionBoxRepo.createBox({ name: "Boost morale" });
-      const suggestion = {
-        body: "Lets have a party!"
-      };
-      chai
-        .request(server)
-        .post(`/suggestionbox/${box.hash_submitter}`)
-        .send(suggestion)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.should.not.have.property("error");
-          res.should.be.a("object");
-          res.body.should.have.property("name");
-          res.body.should.have.property("date");
-          res.body.should.have.property("hash_owner");
-          res.body.should.have.property("hash_submitter");
-          res.body.should.have.property("suggestions");
-          done();
-        });
+      suggestionBoxRepo.createBox({ name: "Boost morale" }).then(box => {
+        const suggestion = {
+          body: "Lets have a party!"
+        };
+        chai
+          .request(server)
+          .post(`/suggestionbox/${box.hash_submitter}`)
+          .send(suggestion)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.should.be.a("object");
+            res.body.should.have.not.property("error");
+            res.body.should.have.property("name");
+            res.body.should.have.property("date");
+            res.body.should.have.property("hash_owner");
+            res.body.should.have.property("hash_submitter");
+            res.body.should.have.property("suggestions");
+            done();
+          });
+      });
     });
   });
 });

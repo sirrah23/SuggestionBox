@@ -33,4 +33,12 @@ app.post("/suggestionbox", (req, res) => {
   suggestionBoxRepo.createBox({ name: req.body.name }).then(r => res.json(r));
 });
 
+app.post("/suggestionbox/:hash", (req, res) => {
+  const boxHash = req.params.hash;
+  const suggestionBody = req.body.body;
+  suggestionBoxRepo
+    .addSuggestion(boxHash, suggestionBody)
+    .then(r => res.json(r));
+});
+
 module.exports = app;
