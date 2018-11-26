@@ -14,27 +14,30 @@
 </template>
 
 <script>
-import SuggestionBoxAPI from "@/utils/api.js"
+import SuggestionBoxAPI from "@/utils/api.js";
 
 const sboxapi = new SuggestionBoxAPI("http://localhost:3000");
 
 export default {
-  data(){
+  data() {
     return {
       name: null
-    }
+    };
   },
-  methods:{
-    createBox(){
-      sboxapi.createBox(`Henlo ${this.name}`).then(res => console.log(res)).catch(err => console.log(err))
-    },
+  methods: {
+    createBox() {
+      sboxapi
+        .createBox(`Henlo ${this.name}`)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
   }
 };
 </script>
 
 <style>
-  .welcome{
-    max-width: 600px;
-    margin-top: 100px;
-  }
+.welcome {
+  max-width: 600px;
+  margin-top: 100px;
+}
 </style>
