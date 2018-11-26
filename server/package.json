@@ -4,6 +4,7 @@
   "description": "The backend for a suggestion box applicationn",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "node_modules/mocha/bin/mocha --exit test/*",
     "pretty": "node_modules/prettier/bin-prettier.js --no-config --write ./*.js **/*.js"
   },
@@ -11,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "mongoose": "^5.3.12"

@@ -1,13 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
 
 const suggestionBoxRepo = require("./repo/suggestionBox");
 
 require("dotenv").config();
 const dbURL = process.env.DB_URL;
-const port = process.env.PORT;
 
 mongoose.connect(
   dbURL,
@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/json" }));
+app.use(cors());
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
@@ -30,7 +31,10 @@ app.get("/suggestionbox/:hash", (req, res) => {
 });
 
 app.post("/suggestionbox", (req, res) => {
-  suggestionBoxRepo.createBox({ name: req.body.name }).then(r => res.json(r));
+  suggestionBoxRepo
+    .createBox({ name: req.body.name })
+    .then(r => res.json(r))
+    .catch(error => res.json({ error }));
 });
 
 app.post("/suggestionbox/:hash", (req, res) => {

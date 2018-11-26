@@ -14,6 +14,10 @@
 </template>
 
 <script>
+import SuggestionBoxAPI from "@/utils/api.js"
+
+const sboxapi = new SuggestionBoxAPI("http://localhost:3000");
+
 export default {
   data(){
     return {
@@ -22,7 +26,7 @@ export default {
   },
   methods:{
     createBox(){
-      console.log(this.name)
+      sboxapi.createBox(`Henlo ${this.name}`).then(res => console.log(res)).catch(err => console.log(err))
     },
   }
 };
