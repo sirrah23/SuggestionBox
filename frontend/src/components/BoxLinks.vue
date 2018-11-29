@@ -16,10 +16,10 @@ export default {
   },
   computed: {
     ownerLink() {
-      return `http://localhost:3000/room_own/${this.boxData.hash_owner}`;
+      return `http://localhost:8080/room_own/${this.boxData.hash_owner}`;
     },
     submitterLink() {
-      return `http://localhost:3000/room_sub/${this.boxData.hash_submitter}`;
+      return `http://localhost:8080/room_sub/${this.boxData.hash_submitter}`;
     }
   }
 };
