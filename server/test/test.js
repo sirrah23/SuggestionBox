@@ -165,14 +165,37 @@ describe("Suggestion Box", () => {
       const { hash_owner, hash_submitter } = await suggestionBoxRepo.createBox({
         name: "Where should we go?"
       });
-      await suggestionBoxRepo.addSuggestion(hash_submitter, "Japan");
+      let updatedBox = await suggestionBoxRepo.addSuggestion(
+        hash_submitter,
+        "Japan"
+      );
+      const suggestionID = updatedBox.suggestions[0]._id;
       const res = await chai
         .request(server)
         .delete(`/suggestionbox/${hash_owner}`)
-        .send({ body: "Japan" });
+        .send({ id: suggestionID });
       res.should.have.status(204);
-      const { suggestions } = await suggestionBoxRepo.getBoxByHash(hash_owner);
-      should.equal(suggestions.length, 0);
+      updatedBox = await suggestionBoxRepo.getBoxByHash(hash_owner);
+      should.equal(updatedBox.suggestions.length, 0);
+    });
+
+    it("should only DELETE one suggestion in the case of duplicates", async function() {
+      const { hash_owner, hash_submitter } = await suggestionBoxRepo.createBox({
+        name: "Where should we go?"
+      });
+      await suggestionBoxRepo.addSuggestion(hash_submitter, "Japan");
+      await suggestionBoxRepo.addSuggestion(hash_submitter, "Japan");
+      let updatedBox = await suggestionBoxRepo.addSuggestion(
+        hash_submitter,
+        "Japan"
+      );
+      const res = await chai
+        .request(server)
+        .delete(`/suggestionbox/${hash_owner}`)
+        .send({ id: updatedBox.suggestions[0].id });
+      res.should.have.status(204);
+      updatedBox = await suggestionBoxRepo.getBoxByHash(hash_owner);
+      should.equal(updatedBox.suggestions.length, 2);
     });
   });
 });

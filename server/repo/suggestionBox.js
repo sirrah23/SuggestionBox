@@ -41,10 +41,10 @@ module.exports = {
       { new: true }
     );
   },
-  async deleteSuggestion(boxHash, suggestionBody) {
+  async deleteSuggestion(boxHash, suggestionID) {
     const r = await suggestionBox.findOneAndUpdate(
       { hash_owner: boxHash },
-      { $pull: { suggestions: { body: suggestionBody } } },
+      { $pull: { suggestions: { _id: suggestionID } } },
       { new: true }
     );
     return !!r;

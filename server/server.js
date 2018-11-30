@@ -47,19 +47,19 @@ app.post("/suggestionbox/:hash", (req, res) => {
 
 app.delete("/suggestionbox/:hash", (req, res) => {
   const boxHash = req.params.hash;
-  const suggestionBody = req.body.body;
+  const suggestionID = req.body.id;
   suggestionBoxRepo
-    .deleteSuggestion(boxHash, suggestionBody)
+    .deleteSuggestion(boxHash, suggestionID)
     .then(success => {
       if (success) {
         res.sendStatus(204);
       } else {
-        res.sendStatus(500);
+        res.sendStatus(404);
       }
     })
     .catch(error => {
       console.log(error);
-      res.sendStatus(500);
+      res.sendStatus(404);
     });
 });
 
