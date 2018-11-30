@@ -45,4 +45,22 @@ app.post("/suggestionbox/:hash", (req, res) => {
     .then(r => res.json(r));
 });
 
+app.delete("/suggestionbox/:hash", (req, res) => {
+  const boxHash = req.params.hash;
+  const suggestionBody = req.body.body;
+  suggestionBoxRepo
+    .deleteSuggestion(boxHash, suggestionBody)
+    .then(success => {
+      if (success) {
+        res.sendStatus(204);
+      } else {
+        res.sendStatus(500);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = app;

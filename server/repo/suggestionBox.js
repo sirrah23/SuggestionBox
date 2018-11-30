@@ -41,6 +41,14 @@ module.exports = {
       { new: true }
     );
   },
+  async deleteSuggestion(boxHash, suggestionBody) {
+    const r = await suggestionBox.findOneAndUpdate(
+      { hash_owner: boxHash },
+      { $pull: { suggestions: { body: suggestionBody } } },
+      { new: true }
+    );
+    return !!r;
+  },
   clear() {
     return suggestionBox.deleteMany({});
   }

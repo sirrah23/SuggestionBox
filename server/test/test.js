@@ -158,4 +158,21 @@ describe("Suggestion Box", () => {
       });
     });
   });
+
+  /* TODO: Convert all tests to use Async/Await */
+  describe("/DELETE suggestion from box", () => {
+    it("should DELETE a suggestion from an exisiting box", async function() {
+      const { hash_owner, hash_submitter } = await suggestionBoxRepo.createBox({
+        name: "Where should we go?"
+      });
+      await suggestionBoxRepo.addSuggestion(hash_submitter, "Japan");
+      const res = await chai
+        .request(server)
+        .delete(`/suggestionbox/${hash_owner}`)
+        .send({ body: "Japan" });
+      res.should.have.status(204);
+      const { suggestions } = await suggestionBoxRepo.getBoxByHash(hash_owner);
+      should.equal(suggestions.length, 0);
+    });
+  });
 });
